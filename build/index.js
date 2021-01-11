@@ -5,11 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("./lib/system/server");
 const autoload_1 = __importDefault(require("./lib/system/autoload"));
-const whatsapp_service_1 = require("./services/whatsapp.service");
 const autoload = new autoload_1.default();
-const service = new whatsapp_service_1.WhatsappService();
+// const service = new WhatsappService();
 autoload.main();
-setTimeout(() => {
-    service.reloadDevice();
-}, 5000);
+// setTimeout(() => {
+//     service.reloadDevice();
+// }, 5000);
 server_1.server.listen(8080, () => console.log('listening port 8080'));
