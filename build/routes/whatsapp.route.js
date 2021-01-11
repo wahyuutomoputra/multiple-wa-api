@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const router = express_1.Router();
+const controllers_1 = require("../controllers");
+const controller = new controllers_1.WhatsappController();
+router.get("/", controller.tes);
+router.post("/createServer", controller.createServer);
+router.get("/getAllClient", controller.getServerList);
+router.post("/send", controller.sendMessage);
+exports.default = router;

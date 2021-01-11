@@ -1,0 +1,1 @@
+export {default as WhatsappController } from "./whatsapp.controller"
