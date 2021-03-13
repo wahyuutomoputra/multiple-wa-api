@@ -25,10 +25,11 @@ class whatsapp {
                 puppeteer: {
                     args: [
                         '--no-sandbox',
-                        '--disable-setuid-sandbox'
+                        '--disable-setuid-sandbox',
                     ],
-                    headless: true
-                }, session: data.session
+                    headless: true,
+                    timeout: 3000
+                }, session: data.session,
             });
             const listener = new listener_1.Listener({
                 id,

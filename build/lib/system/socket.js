@@ -6,7 +6,8 @@ const socket = new socket_io_1.Server(server_1.server, {
     cors: {
         origin: true,
         methods: ['GET', 'POST'],
-        credentials: true
-    }
+        credentials: true,
+    },
+    transports: ['websocket', 'polling'],
 });
 exports.default = socket;

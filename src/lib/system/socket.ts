@@ -5,8 +5,10 @@ const socket = new Server(server, {
     cors: {
         origin: true,
         methods: ['GET', 'POST'],
-        credentials: true
-    }
+        credentials: true,
+    },
+  transports: ['websocket', 'polling'],
 })
+
 
 export default socket;
