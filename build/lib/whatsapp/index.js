@@ -26,6 +26,7 @@ class whatsapp {
                     args: [
                         '--no-sandbox',
                         '--disable-setuid-sandbox',
+                        '--unhandled-rejections=mode'
                     ],
                     headless: true,
                     timeout: 3000

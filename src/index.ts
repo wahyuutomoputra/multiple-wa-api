@@ -3,7 +3,7 @@ import Autoload from "./lib/system/autoload";
 import { WhatsappService } from "./services/whatsapp.service";
 
 const autoload = new Autoload();
-// const service = new WhatsappService();
+//const service = new WhatsappService();
 
 autoload.main();
 // setTimeout(() => {

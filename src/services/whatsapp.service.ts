@@ -12,7 +12,7 @@ interface IAuthenticated {
 
 class WhatsappService {
 
-    public async createServer(data: IAuthenticated){
+    public async createServer(data: IAuthenticated) {
         const insert = await Model.Devices.create({
             apiKey: data.apiKey,
             description: data.description,
@@ -51,18 +51,18 @@ class WhatsappService {
     }
 
     public async authenticated(key: string, session: ClientSession) {
-       const update = await Model.Devices.update({
-        WABrowserId: JSON.stringify(session.WABrowserId),
-        WASecretBundle: JSON.stringify(session.WASecretBundle),
-        WAToken1: JSON.stringify(session.WAToken1),
-        WAToken2: JSON.stringify(session.WAToken2),
-        status: "ONLINE"
-       },{
-           where: {
-               apiKey: key
-           }
-       })
-       return update;
+        const update = await Model.Devices.update({
+            WABrowserId: JSON.stringify(session.WABrowserId),
+            WASecretBundle: JSON.stringify(session.WASecretBundle),
+            WAToken1: JSON.stringify(session.WAToken1),
+            WAToken2: JSON.stringify(session.WAToken2),
+            status: "ONLINE"
+        }, {
+            where: {
+                apiKey: key
+            }
+        })
+        return update;
     }
 
     public async disconnected(key: string) {
@@ -89,10 +89,10 @@ class WhatsappService {
 
         devices.map(async x => {
             let session: ClientSession = {
-                WABrowserId: JSON.parse(x.WABrowserId),
-                WASecretBundle: JSON.parse(x.WASecretBundle),
-                WAToken1: JSON.parse(x.WAToken1),
-                WAToken2: JSON.parse(x.WAToken2)
+                WABrowserId: x.WABrowserId,
+                WASecretBundle: x.WASecretBundle,
+                WAToken1: x.WAToken1,
+                WAToken2: x.WAToken2
             }
 
             await wa.init({

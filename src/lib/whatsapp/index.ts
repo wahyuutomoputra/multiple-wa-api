@@ -1,4 +1,4 @@
-import { Client, ClientSession } from "whatsapp-web.js";
+import { Client, ClientSession, ClientOptions } from "whatsapp-web.js";
 import { v4 as uuid } from "uuid";
 import { Listener } from "./listener";
 
@@ -33,8 +33,9 @@ class whatsapp {
     public async init(data: Iinit) {
         let connected = true;
         let id = data.apiKey ? data.apiKey : uuid();
+        let waSession: ClientSession | undefined = undefined;
 
-        const client = new Client({
+        const clientData: ClientOptions = {
             puppeteer: {
                 args: [
                     '--no-sandbox',
@@ -42,16 +43,28 @@ class whatsapp {
                     '--unhandled-rejections=mode'
                 ],
                 headless: true,
-                timeout: 3000
-            }, session: data.session,
-        });
+                timeout: 3000,
+            },
+        }
+
+        if (data.session) {
+            waSession = {
+                WABrowserId: data.session?.WABrowserId ?? '',
+                WASecretBundle: data.session?.WASecretBundle ?? '',
+                WAToken1: data.session?.WAToken1 ?? '',
+                WAToken2: data.session?.WAToken2 ?? ''
+            }
+            clientData.session = waSession;
+        }
+
+        const client = new Client(clientData);
 
         const listener = new Listener({
             id,
             client,
             name: data.name,
             description: data.description,
-            session: data.session
+            session: waSession
         });
 
         listener.main();

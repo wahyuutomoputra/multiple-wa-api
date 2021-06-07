@@ -9,7 +9,7 @@ interface IListener {
     id: string;
     description: string;
     name: string;
-    session?: ClientSession;
+    session?: ClientSession | undefined;
 }
 
 const service = new Service();
