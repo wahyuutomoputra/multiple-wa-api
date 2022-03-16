@@ -18,10 +18,12 @@ class whatsapp {
         this.session = [];
     }
     init(data) {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         return __awaiter(this, void 0, void 0, function* () {
             let connected = true;
             let id = data.apiKey ? data.apiKey : uuid_1.v4();
-            const client = new whatsapp_web_js_1.Client({
+            let waSession = undefined;
+            const clientData = {
                 puppeteer: {
                     args: [
                         '--no-sandbox',
@@ -29,15 +31,25 @@ class whatsapp {
                         '--unhandled-rejections=mode'
                     ],
                     headless: true,
-                    timeout: 3000
-                }, session: data.session,
-            });
+                    timeout: 3000,
+                },
+            };
+            if (data.session) {
+                waSession = {
+                    WABrowserId: (_b = (_a = data.session) === null || _a === void 0 ? void 0 : _a.WABrowserId) !== null && _b !== void 0 ? _b : '',
+                    WASecretBundle: (_d = (_c = data.session) === null || _c === void 0 ? void 0 : _c.WASecretBundle) !== null && _d !== void 0 ? _d : '',
+                    WAToken1: (_f = (_e = data.session) === null || _e === void 0 ? void 0 : _e.WAToken1) !== null && _f !== void 0 ? _f : '',
+                    WAToken2: (_h = (_g = data.session) === null || _g === void 0 ? void 0 : _g.WAToken2) !== null && _h !== void 0 ? _h : ''
+                };
+                clientData.session = waSession;
+            }
+            const client = new whatsapp_web_js_1.Client(clientData);
             const listener = new listener_1.Listener({
                 id,
                 client,
                 name: data.name,
                 description: data.description,
-                session: data.session
+                session: waSession
             });
             listener.main();
             const cek = this.session.push({

@@ -15,3 +15,11 @@ exports.server = server;
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.text());
 app.use(cors_1.default());
+app.use((err, req, res, next) => {
+    // body-parser will set this to 400 if the json is in error
+    if (err.status === 400)
+        return res.status(err.status).json({
+            message: 'Invalid format json',
+        });
+    return next(err); // if it's not a 400, let the default error handling do it. 
+});

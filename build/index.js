@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("./lib/system/server");
 const autoload_1 = __importDefault(require("./lib/system/autoload"));
 const autoload = new autoload_1.default();
-// const service = new WhatsappService();
+//const service = new WhatsappService();
 autoload.main();
 // setTimeout(() => {
 //     service.reloadDevice();

@@ -22,7 +22,7 @@ class WhatsappService {
                 apiKey: data.apiKey,
                 description: data.description,
                 name: data.name,
-                status: "ONLINE"
+                status: "ONLINE",
             });
             return insert;
         });
@@ -40,33 +40,36 @@ class WhatsappService {
                 type,
                 body,
                 location: detailLoc,
-                fromMe
+                fromMe,
             });
             return insert;
         });
     }
     authenticated(key, session) {
         return __awaiter(this, void 0, void 0, function* () {
-            const update = yield models_1.default.Devices.update({
-                WABrowserId: JSON.stringify(session.WABrowserId),
-                WASecretBundle: JSON.stringify(session.WASecretBundle),
-                WAToken1: JSON.stringify(session.WAToken1),
-                WAToken2: JSON.stringify(session.WAToken2),
-                status: "ONLINE"
-            }, {
-                where: {
-                    apiKey: key
-                }
-            });
-            return update;
+            if (session != undefined) {
+                const update = yield models_1.default.Devices.update({
+                    WABrowserId: JSON.stringify(session.WABrowserId),
+                    WASecretBundle: JSON.stringify(session.WASecretBundle),
+                    WAToken1: JSON.stringify(session.WAToken1),
+                    WAToken2: JSON.stringify(session.WAToken2),
+                    status: "ONLINE",
+                }, {
+                    where: {
+                        apiKey: key,
+                    },
+                });
+                return update;
+            }
+            return null;
         });
     }
     disconnected(key) {
         return __awaiter(this, void 0, void 0, function* () {
             const update = yield models_1.default.Devices.update({ status: "OFFLINE" }, {
                 where: {
-                    apiKey: key
-                }
+                    apiKey: key,
+                },
             });
             return update;
         });
@@ -75,8 +78,8 @@ class WhatsappService {
         return __awaiter(this, void 0, void 0, function* () {
             const update = yield models_1.default.Devices.update({ status: "ONLINE" }, {
                 where: {
-                    apiKey: key
-                }
+                    apiKey: key,
+                },
             });
             return update;
         });
@@ -87,16 +90,16 @@ class WhatsappService {
             const devices = yield models_1.default.Devices.findAll();
             devices.map((x) => __awaiter(this, void 0, void 0, function* () {
                 let session = {
-                    WABrowserId: JSON.parse(x.WABrowserId),
-                    WASecretBundle: JSON.parse(x.WASecretBundle),
-                    WAToken1: JSON.parse(x.WAToken1),
-                    WAToken2: JSON.parse(x.WAToken2)
+                    WABrowserId: x.WABrowserId,
+                    WASecretBundle: x.WASecretBundle,
+                    WAToken1: x.WAToken1,
+                    WAToken2: x.WAToken2,
                 };
                 yield wa.init({
                     name: x.name,
                     description: x.description,
                     session,
-                    apiKey: x.apiKey
+                    apiKey: x.apiKey,
                 });
             }));
             return;
