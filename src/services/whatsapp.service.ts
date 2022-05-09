@@ -44,10 +44,10 @@ class WhatsappService {
     if (session != undefined) {
       const update = await Model.Devices.update(
         {
-          WABrowserId: JSON.stringify(session.WABrowserId),
-          WASecretBundle: JSON.stringify(session.WASecretBundle),
-          WAToken1: JSON.stringify(session.WAToken1),
-          WAToken2: JSON.stringify(session.WAToken2),
+          WABrowserId: session.WABrowserId,
+          WASecretBundle: session.WASecretBundle,
+          WAToken1: session.WAToken1,
+          WAToken2: session.WAToken2,
           status: "ONLINE",
         },
         {
@@ -85,28 +85,29 @@ class WhatsappService {
     return update;
   }
 
-  public async reloadDevice() {
-    const wa = new whatsapp();
-    const devices = await Model.Devices.findAll();
+  // public async reloadDevice() {
+  //   try {
+  //     const wa = new whatsapp();
+  //     const devices = await Model.Devices.findAll();
 
-    devices.map(async (x) => {
-      let session: ClientSession = {
-        WABrowserId: x.WABrowserId,
-        WASecretBundle: x.WASecretBundle,
-        WAToken1: x.WAToken1,
-        WAToken2: x.WAToken2,
-      };
+  //     devices.forEach(async (x) => {
+  //       await wa.init({
+  //         name: x.name,
+  //         description: x.description,
+  //         apiKey: x.apiKey,
+  //       });
+  //     });
 
-      await wa.init({
-        name: x.name,
-        description: x.description,
-        session,
-        apiKey: x.apiKey,
-      });
-    });
+  //     wa.tesAdd()
 
-    return;
-  }
+  //     // devices.map(async (x) => {
+
+  //     // });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   return;
+  // }
 }
 
 export { WhatsappService, IAuthenticated };

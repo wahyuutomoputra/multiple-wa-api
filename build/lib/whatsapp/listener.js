@@ -27,7 +27,7 @@ class Listener {
         this.session = data.session;
     }
     main() {
-        if (this.session == undefined) {
+        if (this.session == false) {
             this.createServer();
         }
         this.auth();
@@ -48,10 +48,12 @@ class Listener {
     auth() {
         let Authstatus = false;
         this.client.on("authenticated", (session) => __awaiter(this, void 0, void 0, function* () {
+            console.log('Authenticated', session);
             yield service.authenticated(this.id, session);
             Authstatus = true;
         }));
         this.client.on("auth_failure", () => __awaiter(this, void 0, void 0, function* () {
+            console.log("failure");
             yield service.disconnected(this.id);
             Authstatus = false;
         }));
@@ -68,12 +70,12 @@ class Listener {
         }));
     }
     qrcode() {
-        this.client.on('qr', (qr) => {
+        this.client.on("qr", (qr) => {
             console.log(`login from number ${this.id}`, qr);
             qrcode_1.default.toDataURL(qr, (err, url) => {
                 this.io.emit(`qrcode-${this.id}`, {
                     image: url,
-                    number: this.id
+                    number: this.id,
                 });
             });
         });

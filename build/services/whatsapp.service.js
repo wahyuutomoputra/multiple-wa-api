@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WhatsappService = void 0;
 const models_1 = __importDefault(require("../models"));
-const whatsapp_1 = require("../lib/whatsapp");
 class WhatsappService {
     createServer(data) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -49,10 +48,10 @@ class WhatsappService {
         return __awaiter(this, void 0, void 0, function* () {
             if (session != undefined) {
                 const update = yield models_1.default.Devices.update({
-                    WABrowserId: JSON.stringify(session.WABrowserId),
-                    WASecretBundle: JSON.stringify(session.WASecretBundle),
-                    WAToken1: JSON.stringify(session.WAToken1),
-                    WAToken2: JSON.stringify(session.WAToken2),
+                    WABrowserId: session.WABrowserId,
+                    WASecretBundle: session.WASecretBundle,
+                    WAToken1: session.WAToken1,
+                    WAToken2: session.WAToken2,
                     status: "ONLINE",
                 }, {
                     where: {
@@ -82,27 +81,6 @@ class WhatsappService {
                 },
             });
             return update;
-        });
-    }
-    reloadDevice() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const wa = new whatsapp_1.whatsapp();
-            const devices = yield models_1.default.Devices.findAll();
-            devices.map((x) => __awaiter(this, void 0, void 0, function* () {
-                let session = {
-                    WABrowserId: x.WABrowserId,
-                    WASecretBundle: x.WASecretBundle,
-                    WAToken1: x.WAToken1,
-                    WAToken2: x.WAToken2,
-                };
-                yield wa.init({
-                    name: x.name,
-                    description: x.description,
-                    session,
-                    apiKey: x.apiKey,
-                });
-            }));
-            return;
         });
     }
 }
